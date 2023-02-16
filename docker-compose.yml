@@ -7,10 +7,15 @@ services:
       - 3000
   wordpress:
     image: wordpress:latest
+    volumes:
+      - ./upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./react-app/:/var/www/html/wp-content/reactpress/apps/react-app/
     environment:
       WORDPRESS_DB_USER: user
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DB_HOST: db
+      WORDPRESS_UPLOAD_MAX_FILESIZE: 64M
+      WORDPRESS_POST_MAX_SIZE: 64M
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_HOME', 'http://localhost/wordpress');
         define('WP_SITEURL', 'http://localhost/wordpress');
