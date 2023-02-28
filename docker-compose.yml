@@ -1,15 +1,17 @@
 version: "3"
 
 services:
-  react-app:
-    build: ./react-app
-    expose:
-      - 3000
+  # react-app:
+  #   build: ./react-app
+  #   expose:
+  #     - 3000
   wordpress:
     image: wordpress:latest
     volumes:
-      - ./upload.ini:/usr/local/etc/php/conf.d/uploads.ini
-      - ./react-app/:/var/www/html/wp-content/reactpress/apps/react-app/
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./react-app/build:/var/www/html/wp-content/reactpress/apps/react-app/build
+      - ./ts-react-app/build:/var/www/html/wp-content/reactpress/apps/ts-react-app/build
+      - ./bootscore-main:/var/www/html/wp-content/themes/bootscore
     environment:
       WORDPRESS_DB_USER: user
       WORDPRESS_DB_PASSWORD: password
@@ -17,8 +19,8 @@ services:
       WORDPRESS_UPLOAD_MAX_FILESIZE: 64M
       WORDPRESS_POST_MAX_SIZE: 64M
       WORDPRESS_CONFIG_EXTRA: |
-        define('WP_HOME', 'http://localhost/wordpress');
-        define('WP_SITEURL', 'http://localhost/wordpress');
+        define('WP_HOME', 'http://localhost/');
+        define('WP_SITEURL', 'http://localhost/');
     expose:
       - 80
     depends_on:
@@ -32,7 +34,7 @@ services:
       - "80:80"
       - "443:443"
     depends_on:
-      - react-app
+      # - react-app
       - wordpress
 
   db:
